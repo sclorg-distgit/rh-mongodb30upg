@@ -1,2 +1,6 @@
-# rh-mongodb30upg
-Meta package for rh-mongodb30upg SCL, meant only for upgrading to MongoDB 3.2
+# Package rh-mongodb30upg for Software Collections
+
+This repository contains sources for RPMs that are used
+to build Software Collections for CentOS by SCLo SIG.
+
+Find other branches for specific sources.
