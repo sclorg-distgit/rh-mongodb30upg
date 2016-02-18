@@ -29,7 +29,7 @@
 Summary:	Package that installs %{scl}
 Name:		%{scl}
 Version:	2.2
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 Group:		Applications/File
 # template of man page with RPM macros to be expanded
@@ -37,7 +37,9 @@ Source0:	README
 # mongodb license
 Source1:	LICENSE
 Requires:	scl-utils
-Requires:	%{scl_v8}
+# Removed dependency on v8314 because it installs also v8314-gyp - it does not properly
+# uninstall yourself (RHBZ#1252388)
+#Requires:	%{scl_v8}
 Requires:	%{?scl_prefix}mongodb-server
 BuildRequires:	scl-utils-build, help2man
 
@@ -190,6 +192,9 @@ restorecon -R %{_localstatedir} >/dev/null 2>&1 || :
 %{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel
 
 %changelog
+* Thu Feb 11 2016 Marek Skalicky <mskalick@redhat.com> - 2.2-5
+- Removed dependency on whole v8314 SCL
+
 * Thu Feb 11 2016 Marek Skalicky <mskalick@redhat.com> - 2.2-4
 - Removed java files and dependencies
 
