@@ -3,9 +3,8 @@
 %{!?scl_name_base: %global scl_name_base mongodb}
 %{!?version_major: %global version_major 3}
 %{!?version_minor: %global version_minor 0}
-%{!?scl_name_suffix: %global scl_name_suffix upg}
 %{!?scl_name_version: %global scl_name_version %{version_major}%{version_minor}}
-%{!?scl: %global scl %{scl_name_prefix}%{scl_name_base}%{scl_name_version}%{?scl_name_suffix}}
+%{!?scl: %global scl %{scl_name_prefix}%{scl_name_base}%{scl_name_version}upg}
 
 # Turn on new layout -- prefix for packages and location
 # for config and variable files
@@ -15,7 +14,7 @@
 # Define SCL macros
 %{?scl_package:%scl_package %scl}
 
-# needed, because we can't use Requires: %%{?scl_v8_%%{scl_name_base}}
+# needed, because we can't use Requires: %{?scl_v8_%{scl_name_base}}
 %global scl_v8 v8314
 %global scl_v8_prefix %{scl_v8}-
 
@@ -30,7 +29,7 @@
 Summary:	Package that installs %{scl}
 Name:		%{scl}
 Version:	2.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/File
 # template of man page with RPM macros to be expanded
@@ -42,7 +41,7 @@ Requires:	%{scl_v8}
 Requires:	%{?scl_prefix}mongodb-server
 BuildRequires:	scl-utils-build, help2man
 BuildRequires:  rh-java-common-javapackages-tools
-BuildRequires:	maven30-scldevel
+BuildRequires:	rh-maven33-scldevel
 BuildRequires:	rh-java-common-scldevel
 
 %description
@@ -84,7 +83,8 @@ Package shipping essential configuration macros to build
 Summary:	Package shipping development files for %{scl}.
 Group:		Applications/File
 Requires:       %{name}-runtime = %{version}
-Requires:       maven30-scldevel
+#Requires:       %{scl_prefix_maven}-scldevel
+Requires:       rh-maven33-scldevel
 
 %description scldevel
 Development files for %{scl} (useful e.g. for hierarchical collection
@@ -330,6 +330,9 @@ restorecon -R %{_localstatedir} >/dev/null 2>&1 || :
 %{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel
 
 %changelog
+* Mon Feb 8 2016 Marek Skalicky <mskalick@redhat.com> - 2.2-3
+- Now using rh-maven33 SCL
+
 * Mon Jan 11 2016 Marek Skalicky <mskalick@redhat.com> - 2.2-2
 - Fixed PYTHONPATH to include also pythonarch directory
 
