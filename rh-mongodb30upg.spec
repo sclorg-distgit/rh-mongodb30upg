@@ -29,7 +29,7 @@
 Summary:	Package that installs %{scl}
 Name:		%{scl}
 Version:	2.2
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPLv2+
 Group:		Applications/File
 # template of man page with RPM macros to be expanded
@@ -148,6 +148,9 @@ install -p -m 644 %{?scl_name}.7 %{buildroot}%{_mandir}/man7/
 # create directory for license
 install -d -m 755 %{buildroot}%{_licensedir}
 
+# create directory for pkgconfig files
+install -d -m 755 %{buildroot}%{_libdir}/pkgconfig
+
 # generate rpm macros file for depended collections
 cat << EOF | tee -a %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel
 %%scl_%{scl_name_base} %{?scl}
@@ -182,6 +185,7 @@ restorecon -R %{_localstatedir} >/dev/null 2>&1 || :
 %{?scl_files}
 %config(noreplace) %{_scl_scripts}/service-environment
 %{_mandir}/man7/%{?scl_name}.*
+%dir %{_libdir}/pkgconfig
 
 %files build
 %doc LICENSE
@@ -192,6 +196,9 @@ restorecon -R %{_localstatedir} >/dev/null 2>&1 || :
 %{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel
 
 %changelog
+* Tue Sep 27 2016 Marek Skalický <mskalick@redhat.com> - 2.2-6
+- Fix pkgconfig directory ownership
+
 * Thu Feb 11 2016 Marek Skalicky <mskalick@redhat.com> - 2.2-5
 - Removed dependency on whole v8314 SCL
 
